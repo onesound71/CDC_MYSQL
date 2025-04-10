@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mysql-source:
+    image: mysql:8.0
+    container_name: mysql-source
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: source_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init/source:/docker-entrypoint-initdb.d
+    command: --server-id=1 --log-bin=mysql-bin --binlog-format=ROW
+
+  mysql-sink:
+    image: mysql:8.0
+    container_name: mysql-sink
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sink_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init/sink:/docker-entrypoint-initdb.d 

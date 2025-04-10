@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    flinkVersion = '1.17.1'
+    scalaBinaryVersion = '2.12'
+}
+
+dependencies {
+    implementation "org.apache.flink:flink-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
+    implementation "com.ververica:flink-connector-mysql-cdc:2.4.1"
+    implementation "org.apache.flink:flink-connector-jdbc_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "mysql:mysql-connector-java:8.0.33"
+    compileOnly "org.projectlombok:lombok:1.18.26"
+    annotationProcessor "org.projectlombok:lombok:1.18.26"
+    testImplementation "junit:junit:4.13.2"
+}
+
+application {
+    mainClass = 'com.example.MysqlCdcJob'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+} 
